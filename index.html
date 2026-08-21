@@ -1,788 +1,4194 @@
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Amit TEMPmail</title>
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#050505">
 
-  <!-- Google Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>AMIT // TEMPMAIL</title>
 
-  <!-- Material Symbols -->
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
-  <style>
-    *{
-      font-family: 'Space Grotesk', sans-serif;
-    }
+<style>
 
-    body{
-      overflow-x:hidden;
-    }
+/* =====================================================
+   ROOT
+===================================================== */
 
-    .no-scrollbar::-webkit-scrollbar{
-      display:none;
-    }
+:root{
+    --black:#050505;
+    --panel:#0b0b0b;
+    --panel2:#101010;
+    --white:#f5f5f5;
+    --gray:#777;
+    --red:#ff1f1f;
+    --green:#00ff88;
+}
 
-    .glass{
-      backdrop-filter: blur(15px);
-      background: rgba(255,255,255,0.08);
-    }
 
-    .dark .glass{
-      background: rgba(255,255,255,0.05);
-    }
+/* =====================================================
+   RESET
+===================================================== */
 
-    @keyframes toastIn{
-      from{
-        transform:translateY(100px);
-        opacity:0;
-      }
-      to{
-        transform:translateY(0);
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+    background:#050505;
+}
+
+body{
+    color:var(--white);
+    font-family:"Share Tech Mono",monospace;
+    overflow-x:hidden;
+}
+
+
+/* =====================================================
+   BACKGROUND GRID
+===================================================== */
+
+body::before{
+    content:"";
+
+    position:fixed;
+    inset:0;
+
+    z-index:-5;
+
+    background:
+        linear-gradient(
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        );
+
+    background-size:40px 40px;
+}
+
+
+body::after{
+    content:"";
+
+    position:fixed;
+    inset:0;
+
+    z-index:999;
+
+    pointer-events:none;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,.018) 0,
+            rgba(255,255,255,.018) 1px,
+            transparent 1px,
+            transparent 5px
+        );
+
+    opacity:.2;
+}
+
+
+/* =====================================================
+   APP
+===================================================== */
+
+.app{
+    width:min(100%,520px);
+
+    margin:auto;
+
+    padding:
+        15px
+        14px
+        80px;
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
+    position:relative;
+
+    padding:20px 16px;
+
+    margin-bottom:12px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #0c0c0c,
+            #070707
+        );
+
+    border:
+        1px solid
+        rgba(255,31,31,.4);
+
+    box-shadow:
+        inset 0 0 25px
+        rgba(255,31,31,.025),
+        0 0 25px
+        rgba(0,0,0,.7);
+
+    clip-path:polygon(
+        0 0,
+        calc(100% - 18px) 0,
+        100% 18px,
+        100% 100%,
+        18px 100%,
+        0 calc(100% - 18px)
+    );
+}
+
+
+.header::after{
+    content:"";
+
+    position:absolute;
+
+    right:0;
+    top:0;
+
+    width:80px;
+    height:2px;
+
+    background:var(--red);
+
+    box-shadow:
+        0 0 10px
+        rgba(255,31,31,.7);
+}
+
+
+.header-line{
+    height:2px;
+
+    width:100%;
+
+    margin-bottom:14px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--red),
+            transparent
+        );
+}
+
+
+/* =====================================================
+   BRAND ROW
+===================================================== */
+
+.brand-row{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+}
+
+
+.logo{
+    font-family:"Orbitron",sans-serif;
+
+    font-weight:900;
+
+    font-size:24px;
+
+    letter-spacing:2px;
+
+    color:#fff;
+
+    white-space:nowrap;
+
+    text-shadow:
+        0 0 8px
+        rgba(255,31,31,.35);
+}
+
+
+.logo span{
+    color:var(--red);
+}
+
+
+/* =====================================================
+   CONNECTION INDICATOR
+===================================================== */
+
+.connection{
+    display:flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    flex-shrink:0;
+
+    padding:6px 8px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    background:#080808;
+
+    transition:.25s;
+}
+
+
+.connection-dot{
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:var(--red);
+
+    box-shadow:
+        0 0 8px
+        rgba(255,31,31,.7);
+
+    transition:.25s;
+}
+
+
+.connection-text{
+    font-family:"Orbitron",sans-serif;
+
+    font-size:7px;
+
+    letter-spacing:1px;
+
+    color:var(--red);
+
+    transition:.25s;
+}
+
+
+/* CONNECTED */
+
+.header.connected .connection-dot{
+    background:var(--green);
+
+    box-shadow:
+        0 0 8px
+        rgba(0,255,136,.8);
+}
+
+
+.header.connected .connection-text{
+    color:var(--green);
+}
+
+
+/* DISCONNECTED */
+
+.header.disconnected .connection-dot{
+    background:var(--red);
+
+    box-shadow:
+        0 0 8px
+        rgba(255,31,31,.8);
+
+    animation:
+        connectionPulse
+        1s
+        infinite;
+}
+
+
+@keyframes connectionPulse{
+
+    0%{
         opacity:1;
-      }
     }
 
-    @keyframes toastOut{
-      from{
-        transform:translateY(0);
+    50%{
+        opacity:.35;
+    }
+
+    100%{
         opacity:1;
-      }
-      to{
-        transform:translateY(100px);
+    }
+
+}
+
+
+/* =====================================================
+   SUBTITLE
+===================================================== */
+
+.subtitle{
+    margin-top:7px;
+
+    color:#666;
+
+    font-size:9px;
+
+    letter-spacing:2px;
+}
+
+
+.subtitle-status{
+    color:#555;
+
+    transition:.25s;
+}
+
+
+.header.connected .subtitle-status{
+    color:var(--green);
+
+    text-shadow:
+        0 0 6px
+        rgba(0,255,136,.3);
+}
+
+
+.header.disconnected .subtitle-status{
+    color:var(--red);
+}
+
+
+/* =====================================================
+   PANELS
+===================================================== */
+
+.panel{
+    position:relative;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15,15,15,.98),
+            rgba(8,8,8,.98)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    margin-bottom:11px;
+
+    padding:15px;
+
+    box-shadow:
+        inset 0 0 20px
+        rgba(255,255,255,.012),
+        0 5px 20px
+        rgba(0,0,0,.5);
+
+    clip-path:polygon(
+        0 0,
+        calc(100% - 12px) 0,
+        100% 12px,
+        100% 100%,
+        12px 100%,
+        0 calc(100% - 12px)
+    );
+}
+
+
+.panel::before{
+    content:"";
+
+    position:absolute;
+
+    left:16px;
+    top:-1px;
+
+    width:35px;
+    height:2px;
+
+    background:var(--red);
+
+    box-shadow:
+        0 0 8px
+        rgba(255,31,31,.5);
+}
+
+
+.panel-title{
+    font-family:"Orbitron",sans-serif;
+
+    font-size:9px;
+
+    color:#777;
+
+    letter-spacing:2px;
+
+    margin-bottom:12px;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.actions{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:8px;
+}
+
+
+.cyber-btn{
+    min-height:45px;
+
+    padding:10px;
+
+    background:#0a0a0a;
+
+    border:
+        1px solid
+        rgba(255,255,255,.16);
+
+    color:#eee;
+
+    font-family:"Orbitron",sans-serif;
+
+    font-size:9px;
+
+    font-weight:700;
+
+    letter-spacing:1px;
+
+    cursor:pointer;
+
+    transition:.18s;
+
+    clip-path:polygon(
+        0 0,
+        calc(100% - 9px) 0,
+        100% 9px,
+        100% 100%,
+        9px 100%,
+        0 calc(100% - 9px)
+    );
+}
+
+
+.cyber-btn:hover{
+    border-color:var(--red);
+
+    background:#110707;
+
+    box-shadow:
+        0 0 15px
+        rgba(255,31,31,.12);
+}
+
+
+.cyber-btn:active{
+    transform:scale(.97);
+}
+
+
+.cyber-btn.red{
+    border-color:
+        rgba(255,31,31,.6);
+
+    color:var(--red);
+}
+
+
+.cyber-btn.green{
+    border-color:
+        rgba(0,255,136,.5);
+
+    color:var(--green);
+}
+
+
+.refresh{
+    width:100%;
+}
+
+
+/* =====================================================
+   EMAIL BOX
+===================================================== */
+
+.email-box{
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+}
+
+
+.email-icon{
+    width:45px;
+    height:45px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border:
+        1px solid
+        rgba(255,31,31,.55);
+
+    color:var(--red);
+
+    background:
+        rgba(255,31,31,.025);
+}
+
+
+.email-icon svg{
+    width:22px;
+    height:22px;
+}
+
+
+.email-content{
+    min-width:0;
+
+    flex:1;
+}
+
+
+.email-label{
+    color:#555;
+
+    font-size:8px;
+
+    letter-spacing:2px;
+
+    margin-bottom:5px;
+}
+
+
+/* =====================================================
+   FAST STYLISH EMAIL FLICKER
+===================================================== */
+
+.email-address{
+    min-height:22px;
+
+    color:#fff;
+
+    font-size:14px;
+
+    line-height:1.5;
+
+    word-break:break-all;
+
+    text-shadow:
+        0 0 6px
+        rgba(255,31,31,.25);
+}
+
+
+.email-address.flicker{
+
+    animation:
+        fastCyberFlicker
+        1.35s
+        linear
+        infinite;
+
+}
+
+
+@keyframes fastCyberFlicker{
+
+    0%{
+        opacity:1;
+
+        text-shadow:
+            0 0 6px
+            rgba(255,31,31,.15);
+    }
+
+    3%{
+        opacity:.82;
+    }
+
+    5%{
+        opacity:1;
+    }
+
+    13%{
+        opacity:1;
+    }
+
+    14%{
+        opacity:.42;
+
+        text-shadow:
+            0 0 16px
+            rgba(255,31,31,.95);
+    }
+
+    15%{
+        opacity:1;
+    }
+
+    22%{
+        opacity:.88;
+    }
+
+    23%{
+        opacity:1;
+    }
+
+    37%{
+        opacity:1;
+    }
+
+    38%{
+        opacity:.48;
+
+        text-shadow:
+            0 0 18px
+            rgba(255,31,31,.85);
+    }
+
+    39%{
+        opacity:1;
+    }
+
+    52%{
+        opacity:1;
+    }
+
+    53%{
+        opacity:.72;
+    }
+
+    54%{
+        opacity:1;
+    }
+
+    67%{
+        opacity:1;
+    }
+
+    68%{
+        opacity:.38;
+
+        text-shadow:
+            0 0 20px
+            rgba(255,31,31,1);
+    }
+
+    69%{
+        opacity:1;
+    }
+
+    82%{
+        opacity:1;
+    }
+
+    83%{
+        opacity:.78;
+    }
+
+    84%{
+        opacity:1;
+    }
+
+    92%{
+        opacity:1;
+    }
+
+    93%{
+        opacity:.5;
+    }
+
+    94%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:1;
+
+        text-shadow:
+            0 0 6px
+            rgba(255,31,31,.15);
+    }
+
+}
+
+
+/* =====================================================
+   COPY
+===================================================== */
+
+.copy-btn{
+    flex-shrink:0;
+
+    width:52px;
+    height:40px;
+
+    background:#0b0b0b;
+
+    border:
+        1px solid
+        rgba(255,31,31,.55);
+
+    color:var(--red);
+
+    font-family:"Orbitron",sans-serif;
+
+    font-size:7px;
+
+    cursor:pointer;
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+.timer-wrap{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:10px;
+}
+
+
+.timer-label{
+    color:#555;
+
+    font-size:8px;
+
+    letter-spacing:2px;
+}
+
+
+.timer{
+    margin-top:5px;
+
+    font-family:"Orbitron",sans-serif;
+
+    font-size:28px;
+
+    color:#fff;
+
+    letter-spacing:1px;
+}
+
+
+.timer-btn{
+    padding:11px 15px;
+
+    border:
+        1px solid
+        rgba(255,31,31,.6);
+
+    background:#0a0a0a;
+
+    color:var(--red);
+
+    font-family:"Orbitron",sans-serif;
+
+    font-size:8px;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+
+.timer-btn:hover{
+    background:#150707;
+
+    box-shadow:
+        0 0 14px
+        rgba(255,31,31,.15);
+}
+
+
+.timer-btn:active{
+    transform:scale(.95);
+}
+
+
+.timer-btn:disabled{
+    opacity:.45;
+
+    cursor:not-allowed;
+}
+
+
+/* =====================================================
+   OTP
+===================================================== */
+
+.otp{
+    border-color:
+        rgba(0,255,136,.3);
+}
+
+
+.otp-code{
+    font-family:"Orbitron",sans-serif;
+
+    font-size:27px;
+
+    color:var(--green);
+
+    letter-spacing:5px;
+
+    text-shadow:
+        0 0 8px
+        rgba(0,255,136,.3);
+}
+
+
+.status-sub{
+    margin-top:6px;
+
+    color:#555;
+
+    font-size:8px;
+}
+
+
+/* =====================================================
+   INBOX
+===================================================== */
+
+.inbox-head{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:11px;
+}
+
+
+.inbox-title{
+    font-family:"Orbitron",sans-serif;
+
+    font-size:13px;
+
+    letter-spacing:2px;
+}
+
+
+.count{
+    color:var(--red);
+
+    font-size:8px;
+}
+
+
+.mail-list{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+}
+
+
+.mail-card{
+    position:relative;
+
+    padding:12px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    background:#090909;
+
+    cursor:pointer;
+
+    transition:.18s;
+}
+
+
+.mail-card:hover{
+    border-color:
+        rgba(255,31,31,.5);
+
+    background:#0d0808;
+
+    transform:translateX(2px);
+}
+
+
+.mail-card::after{
+    content:"";
+
+    position:absolute;
+
+    right:0;
+    top:0;
+
+    width:2px;
+    height:100%;
+
+    background:var(--red);
+
+    opacity:.7;
+}
+
+
+.mail-top{
+    display:flex;
+
+    gap:10px;
+}
+
+
+.avatar{
+    width:38px;
+    height:38px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border:
+        1px solid
+        rgba(255,31,31,.4);
+
+    color:var(--red);
+
+    font-family:"Orbitron",sans-serif;
+
+    font-size:11px;
+}
+
+
+.mail-info{
+    min-width:0;
+
+    flex:1;
+}
+
+
+.mail-subject{
+    font-family:"Orbitron",sans-serif;
+
+    font-size:9px;
+
+    color:#eee;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+
+.mail-from{
+    margin-top:5px;
+
+    color:#999;
+
+    font-size:8px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+
+.mail-intro{
+    margin-top:5px;
+
+    color:#555;
+
+    font-size:8px;
+
+    white-space:nowrap;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+}
+
+
+.mail-date{
+    margin-top:6px;
+
+    color:#3d3d3d;
+
+    font-size:7px;
+}
+
+
+/* =====================================================
+   EMPTY
+===================================================== */
+
+.empty{
+    text-align:center;
+
+    padding:45px 10px;
+
+    color:#444;
+}
+
+
+.empty svg{
+    width:62px;
+    height:62px;
+
+    color:#4b4b4b;
+
+    margin-bottom:12px;
+}
+
+
+.empty-title{
+    font-family:"Orbitron",sans-serif;
+
+    font-size:9px;
+
+    color:#555;
+}
+
+
+.empty-sub{
+    margin-top:6px;
+
+    font-size:7px;
+
+    color:#3d3d3d;
+}
+
+
+/* =====================================================
+   EMAIL VIEW
+===================================================== */
+
+.email-view{
+    position:fixed;
+
+    inset:0;
+
+    z-index:500;
+
+    display:none;
+
+    background:#050505;
+
+    overflow-y:auto;
+}
+
+
+.email-view.active{
+    display:block;
+}
+
+
+.email-view-inner{
+    width:min(100%,520px);
+
+    margin:auto;
+
+    padding:
+        15px
+        14px
+        50px;
+}
+
+
+.back-btn{
+    width:44px;
+    height:42px;
+
+    margin-bottom:12px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border:
+        1px solid
+        rgba(255,31,31,.5);
+
+    background:#090909;
+
+    color:var(--red);
+
+    cursor:pointer;
+}
+
+
+.detail{
+    padding:16px;
+
+    background:#0a0a0a;
+
+    border:
+        1px solid
+        rgba(255,31,31,.35);
+}
+
+
+.detail-header{
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    margin-bottom:18px;
+}
+
+
+.detail-avatar{
+    width:48px;
+    height:48px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border:
+        1px solid
+        rgba(255,31,31,.5);
+
+    color:var(--red);
+
+    font-family:"Orbitron",sans-serif;
+}
+
+
+.detail-sender{
+    color:#ddd;
+
+    font-size:9px;
+
+    word-break:break-all;
+}
+
+
+.detail-time{
+    margin-top:5px;
+
+    color:#555;
+
+    font-size:7px;
+}
+
+
+.detail-subject{
+    margin-bottom:15px;
+
+    color:white;
+
+    font-family:"Orbitron",sans-serif;
+
+    font-size:16px;
+
+    line-height:1.5;
+}
+
+
+.email-body{
+    background:#fff;
+
+    color:#000;
+
+    overflow:hidden;
+}
+
+
+.email-frame{
+    display:block;
+
+    width:100%;
+
+    min-height:380px;
+
+    border:0;
+
+    background:#fff;
+}
+
+
+.text-body{
+    min-height:200px;
+
+    padding:15px;
+
+    background:#0c0c0c;
+
+    color:#ddd;
+
+    white-space:pre-wrap;
+
+    word-break:break-word;
+
+    font-size:10px;
+
+    line-height:1.6;
+}
+
+
+.remove-btn{
+    width:100%;
+
+    margin-top:14px;
+
+    padding:12px;
+
+    border:
+        1px solid
+        rgba(255,31,31,.5);
+
+    background:#0a0a0a;
+
+    color:var(--red);
+
+    font-family:"Orbitron",sans-serif;
+
+    font-size:8px;
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+.toast-container{
+    position:fixed;
+
+    left:50%;
+    bottom:20px;
+
+    transform:translateX(-50%);
+
+    z-index:1000;
+
+    width:max-content;
+
+    max-width:90%;
+}
+
+
+.toast{
+    padding:11px 15px;
+
+    border:
+        1px solid
+        rgba(255,31,31,.6);
+
+    background:#080808;
+
+    color:#fff;
+
+    font-size:8px;
+
+    box-shadow:
+        0 0 18px
+        rgba(255,31,31,.15);
+
+    animation:
+        toastIn .3s ease;
+}
+
+
+@keyframes toastIn{
+
+    from{
         opacity:0;
-      }
+        transform:translateY(12px);
     }
 
-    .toast-in{
-      animation: toastIn .4s ease forwards;
+    to{
+        opacity:1;
+        transform:translateY(0);
     }
 
-    .toast-out{
-      animation: toastOut .4s ease forwards;
-    }
+}
 
-    @keyframes fadeSplash{
-      to{
+
+/* =====================================================
+   SPLASH
+===================================================== */
+
+.splash{
+    position:fixed;
+
+    inset:0;
+
+    z-index:2000;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#050505;
+}
+
+
+.splash.hide{
+    animation:
+        splashOut .6s
+        forwards;
+}
+
+
+@keyframes splashOut{
+
+    to{
         opacity:0;
         visibility:hidden;
-      }
     }
 
-    .fade-splash{
-      animation:fadeSplash .7s ease forwards;
+}
+
+
+.splash-svg{
+    width:105px;
+    height:105px;
+
+    margin-bottom:20px;
+}
+
+
+.splash-title{
+    font-family:"Orbitron",sans-serif;
+
+    font-size:21px;
+
+    font-weight:900;
+
+    letter-spacing:3px;
+
+    color:white;
+}
+
+
+.splash-title span{
+    color:var(--red);
+}
+
+
+.splash-sub{
+    margin-top:7px;
+
+    color:#555;
+
+    font-size:7px;
+
+    letter-spacing:3px;
+}
+
+
+.progress{
+    width:230px;
+    height:2px;
+
+    margin-top:24px;
+
+    background:#1a1a1a;
+
+    overflow:hidden;
+}
+
+
+.progress-bar{
+    width:0%;
+    height:100%;
+
+    background:var(--red);
+
+    box-shadow:
+        0 0 10px
+        rgba(255,31,31,.7);
+
+    transition:.2s;
+}
+
+
+/* =====================================================
+   SVG
+===================================================== */
+
+svg{
+    fill:none;
+
+    stroke:currentColor;
+
+    stroke-width:1.6;
+
+    stroke-linecap:round;
+
+    stroke-linejoin:round;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:430px){
+
+    .logo{
+        font-size:20px;
     }
 
-    .loader-bar{
-      transition: width .3s ease;
+    .connection{
+        padding:5px 6px;
     }
 
-    .email-card:hover{
-      transform:scale(1.01);
+    .connection-text{
+        font-size:6px;
     }
-  </style>
+
+    .subtitle{
+        font-size:8px;
+    }
+
+    .email-address{
+        font-size:12px;
+    }
+
+    .timer{
+        font-size:23px;
+    }
+
+}
+
+
+@media(max-width:350px){
+
+    .brand-row{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .connection{
+        align-self:flex-end;
+    }
+
+}
+
+</style>
 </head>
 
-<body class="bg-gradient-to-br from-slate-100 to-white dark:from-[#0f172a] dark:to-black text-black dark:text-white transition-all duration-300">
 
-  <!-- SPLASH -->
-  <div id="splash"
-    class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white dark:bg-black">
+<body>
 
-    <h1 class="text-4xl font-bold mb-3 tracking-wide">
-      Amit TEMPmail
-    </h1>
 
-    <p class="text-gray-500 dark:text-gray-400 mb-10">
-      No Login, No Signup, Just Privacy.
-    </p>
+<!-- =====================================================
+     SPLASH
+===================================================== -->
 
-    <div class="w-72 h-3 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
-      <div id="progressBar"
-        class="loader-bar h-full bg-black dark:bg-white rounded-full w-0">
-      </div>
+<div
+    id="splash"
+    class="splash">
+
+    <svg
+        class="splash-svg"
+        viewBox="0 0 100 100">
+
+        <polygon
+            points="50,5 92,28 92,72 50,95 8,72 8,28"
+            stroke="#ff1f1f"
+            stroke-width="1"/>
+
+        <polygon
+            points="50,20 78,35 78,65 50,80 22,65 22,35"
+            stroke="#777"
+            stroke-width="1"/>
+
+        <rect
+            x="37"
+            y="37"
+            width="26"
+            height="26"
+            stroke="#fff"/>
+
+        <path d="M50 30V37"/>
+        <path d="M50 63V70"/>
+        <path d="M30 50H37"/>
+        <path d="M63 50H70"/>
+
+        <circle
+            cx="50"
+            cy="50"
+            r="5"
+            fill="#ff1f1f"
+            stroke="none"/>
+
+    </svg>
+
+
+    <div class="splash-title">
+
+        AMIT
+        <span>//</span>
+        TEMPMAIL
+
     </div>
-  </div>
 
-  <!-- APP -->
-  <div class="max-w-md mx-auto min-h-screen p-4">
+
+    <div class="splash-sub">
+
+        SECURE MAIL TERMINAL
+
+    </div>
+
+
+    <div class="progress">
+
+        <div
+            id="progressBar"
+            class="progress-bar">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     APP
+===================================================== -->
+
+<div class="app">
+
 
     <!-- HEADER -->
-    <div class="flex items-center justify-between mb-5 pt-2">
-      <div></div>
 
-      <h1 class="text-2xl font-bold">
-        Amit TEMPmail
-      </h1>
+    <header
+        id="header"
+        class="header disconnected">
 
-      <button id="themeBtn"
-        class="w-10 h-10 rounded-full glass flex items-center justify-center">
-        <span class="material-symbols-outlined">
-          dark_mode
-        </span>
-      </button>
+
+        <div class="header-line"></div>
+
+
+        <div class="brand-row">
+
+
+            <div class="logo">
+
+                AMIT
+                <span>//</span>
+                TEMPMAIL
+
+            </div>
+
+
+            <div class="connection">
+
+
+                <span
+                    id="connectionDot"
+                    class="connection-dot">
+                </span>
+
+
+                <span
+                    id="connectionText"
+                    class="connection-text">
+
+                    OFFLINE
+
+                </span>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="subtitle">
+
+            TEMPORARY MAIL //
+            <span
+                id="subtitleStatus"
+                class="subtitle-status">
+
+                NETWORK TERMINAL
+
+            </span>
+
+        </div>
+
+
+    </header>
+
+
+    <!-- CONTROL -->
+
+    <div class="panel">
+
+        <div class="panel-title">
+
+            // MAILBOX CONTROL
+
+        </div>
+
+
+        <div class="actions">
+
+
+            <button
+                id="newMailBtn"
+                class="cyber-btn">
+
+                CHANGE MAIL
+
+            </button>
+
+
+            <button
+                id="clearBtn"
+                class="cyber-btn red">
+
+                CLEAR INBOX
+
+            </button>
+
+
+        </div>
+
     </div>
 
-    <!-- ACTIONS -->
-    <div class="grid grid-cols-2 gap-3 mb-4">
-      <button id="newMailBtn"
-        class="bg-black dark:bg-white dark:text-black text-white py-3 rounded-2xl font-semibold shadow-lg flex items-center justify-center gap-2">
-
-        <span class="material-symbols-outlined">refresh</span>
-        Change Mail
-      </button>
-
-      <button id="deleteBtn"
-        class="bg-red-500 text-white py-3 rounded-2xl font-semibold shadow-lg flex items-center justify-center gap-2">
-
-        <span class="material-symbols-outlined">delete</span>
-        Delete Mail
-      </button>
-    </div>
 
     <!-- EMAIL -->
-    <div class="glass rounded-3xl p-4 mb-4 border border-white/10">
 
-      <div class="flex items-start justify-between gap-2">
-        <div class="overflow-hidden">
-          <p class="text-sm opacity-70 mb-1">
-            Temporary Email
-          </p>
+    <div class="panel">
 
-          <p id="emailText"
-            class="font-semibold break-all text-lg">
-            Loading...
-          </p>
+
+        <div class="panel-title">
+
+            // ACTIVE ADDRESS
+
         </div>
 
-        <button id="copyBtn"
-          class="bg-blue-500 text-white px-4 py-2 rounded-xl text-sm">
-          Copy
-        </button>
-      </div>
+
+        <div class="email-box">
+
+
+            <div class="email-icon">
+
+                <svg viewBox="0 0 24 24">
+
+                    <rect
+                        x="3"
+                        y="5"
+                        width="18"
+                        height="14"/>
+
+                    <path
+                        d="M3 7l9 6 9-6"/>
+
+                </svg>
+
+            </div>
+
+
+            <div class="email-content">
+
+
+                <div class="email-label">
+
+                    TEMPORARY EMAIL
+
+                </div>
+
+
+                <div
+                    id="emailText"
+                    class="email-address">
+
+                    GENERATING...
+
+                </div>
+
+
+            </div>
+
+
+            <button
+                id="copyBtn"
+                class="copy-btn">
+
+                COPY
+
+            </button>
+
+
+        </div>
+
     </div>
+
 
     <!-- TIMER -->
-    <div class="glass rounded-3xl p-4 mb-4 border border-white/10">
 
-      <div class="flex items-center justify-between">
+    <div class="panel">
 
-        <div>
-          <p class="opacity-70 text-sm mb-1">
-            Email Lifetime
-          </p>
 
-          <h2 id="timer"
-            class="text-3xl font-bold">
-            10:00
-          </h2>
+        <div class="timer-wrap">
+
+
+            <div>
+
+
+                <div class="timer-label">
+
+                    MAILBOX LIFETIME
+
+                </div>
+
+
+                <div
+                    id="timer"
+                    class="timer">
+
+                    05:00
+
+                </div>
+
+
+            </div>
+
+
+            <button
+                id="extendBtn"
+                class="timer-btn">
+
+                EXTEND
+
+            </button>
+
+
         </div>
 
-        <button id="extendBtn"
-          class="bg-green-500 px-4 py-2 rounded-xl text-white">
-          Extend
+    </div>
+
+
+    <!-- OTP -->
+
+    <div
+        id="otpPanel"
+        class="panel otp"
+        style="display:none;">
+
+
+        <div class="panel-title">
+
+            // VERIFICATION CODE
+
+        </div>
+
+
+        <div
+            id="otpCode"
+            class="otp-code">
+        </div>
+
+
+        <div
+            id="otpSource"
+            class="status-sub">
+        </div>
+
+
+        <button
+            id="copyOtpBtn"
+            class="cyber-btn green"
+            style="
+                margin-top:12px;
+                width:100%;
+            ">
+
+            COPY CODE
+
         </button>
 
-      </div>
+
     </div>
+
 
     <!-- REFRESH -->
-    <button id="refreshBtn"
-      class="w-full mb-4 bg-indigo-500 text-white py-3 rounded-2xl font-semibold flex items-center justify-center gap-2">
 
-      <span class="material-symbols-outlined">
-        sync
-      </span>
+    <button
+        id="refreshBtn"
+        class="cyber-btn refresh"
+        style="margin-bottom:11px;">
 
-      Refresh Inbox
+        SYNC INBOX
+
     </button>
 
+
     <!-- INBOX -->
-    <div class="mb-20">
 
-      <div class="flex items-center justify-between mb-3">
-        <h2 class="text-xl font-bold">
-          Inbox
-        </h2>
+    <div class="panel">
 
-        <p id="emailCount"
-          class="opacity-70 text-sm">
-          0 Emails
-        </p>
-      </div>
 
-      <div id="emailList"
-        class="space-y-3 no-scrollbar">
-      </div>
+        <div class="inbox-head">
 
-      <!-- EMPTY -->
-      <div id="emptyState"
-        class="text-center py-20 opacity-70">
 
-        <span class="material-symbols-outlined text-7xl mb-3">
-          mail
-        </span>
+            <div class="inbox-title">
 
-        <p class="text-lg">
-          Your inbox is empty
-        </p>
+                INBOX
 
-        <p class="text-sm mt-1">
-          Waiting for incoming emails...
-        </p>
-      </div>
+            </div>
+
+
+            <div
+                id="emailCount"
+                class="count">
+
+                0 EMAILS
+
+            </div>
+
+
+        </div>
+
+
+        <div
+            id="emailList"
+            class="mail-list">
+        </div>
+
+
+        <div
+            id="emptyState"
+            class="empty">
+
+
+            <svg viewBox="0 0 24 24">
+
+                <rect
+                    x="3"
+                    y="5"
+                    width="18"
+                    height="14"/>
+
+                <path
+                    d="M3 7l9 6 9-6"/>
+
+            </svg>
+
+
+            <div class="empty-title">
+
+                NO TRANSMISSION DETECTED
+
+            </div>
+
+
+            <div class="empty-sub">
+
+                WAITING FOR INCOMING MAIL...
+
+            </div>
+
+
+        </div>
+
+
     </div>
 
-  </div>
 
-  <!-- EMAIL VIEW -->
-  <div id="emailView"
-    class="fixed inset-0 bg-white dark:bg-black z-40 hidden overflow-y-auto">
+</div>
 
-    <div class="max-w-md mx-auto min-h-screen p-4">
 
-      <button id="backBtn"
-        class="mb-5 w-12 h-12 rounded-full glass flex items-center justify-center">
+<!-- =====================================================
+     EMAIL VIEW
+===================================================== -->
 
-        <span class="material-symbols-outlined">
-          arrow_back
-        </span>
-      </button>
+<div
+    id="emailView"
+    class="email-view">
 
-      <div class="glass rounded-3xl p-5 border border-white/10">
 
-        <div class="flex items-center gap-3 mb-5">
+    <div class="email-view-inner">
 
-          <div id="avatar"
-            class="w-14 h-14 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center text-2xl font-bold">
-            A
-          </div>
 
-          <div>
-            <h2 id="detailSender"
-              class="font-bold text-lg">
-            </h2>
+        <button
+            id="backBtn"
+            class="back-btn">
 
-            <p id="detailTime"
-              class="opacity-70 text-sm">
-            </p>
-          </div>
-        </div>
 
-        <h1 id="detailSubject"
-          class="text-2xl font-bold mb-5">
-        </h1>
+            <svg
+                viewBox="0 0 24 24"
+                width="19"
+                height="19">
 
-        <div id="detailBody"
-          class="prose dark:prose-invert max-w-none break-words">
-        </div>
+                <path d="M19 12H5"/>
 
-        <button id="deleteMessageBtn"
-          class="mt-8 w-full bg-red-500 text-white py-3 rounded-2xl font-semibold">
-          Delete Message
+                <path
+                    d="M12 19l-7-7 7-7"/>
+
+            </svg>
+
+
         </button>
 
-      </div>
+
+        <div class="detail">
+
+
+            <div class="detail-header">
+
+
+                <div
+                    id="avatar"
+                    class="detail-avatar">
+
+                    A
+
+                </div>
+
+
+                <div>
+
+
+                    <div
+                        id="detailSender"
+                        class="detail-sender">
+                    </div>
+
+
+                    <div
+                        id="detailTime"
+                        class="detail-time">
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div
+                id="detailSubject"
+                class="detail-subject">
+            </div>
+
+
+            <div
+                id="detailBody"
+                class="email-body">
+            </div>
+
+
+            <button
+                id="deleteMessageBtn"
+                class="remove-btn">
+
+                REMOVE FROM VIEW
+
+            </button>
+
+
+        </div>
+
 
     </div>
-  </div>
 
-  <!-- TOAST -->
-  <div id="toastContainer"
-    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
-  </div>
 
-  <script type="module">
+</div>
 
-    const API = "https://api.mail.tm";
 
-    let token = "";
-    let currentEmail = "";
-    let currentPassword = "";
-    let accountId = "";
-    let mailExpiry = 0;
+<!-- TOAST -->
 
-    let messages = [];
-    let timerSeconds = 600;
-    let timerInterval;
-    let inboxInterval;
+<div
+    id="toastContainer"
+    class="toast-container">
+</div>
 
-    const emailText = document.getElementById("emailText");
-    const emailList = document.getElementById("emailList");
-    const emptyState = document.getElementById("emptyState");
-    const timer = document.getElementById("timer");
-    const emailCount = document.getElementById("emailCount");
 
-    // SPLASH
-    let progress = 0;
+<script>
 
-    const splashInterval = setInterval(() => {
+/* =====================================================
+   CONFIG
+===================================================== */
 
-      progress += 10;
+const API =
+    "https://api.tempmailportal.com";
 
-      document.getElementById("progressBar")
-        .style.width = progress + "%";
+const POLL_INTERVAL =
+    8000;
 
-      if(progress >= 100){
 
-        clearInterval(splashInterval);
+/*
+   TIMER
 
-        setTimeout(() => {
-          document.getElementById("splash")
-            .classList.add("fade-splash");
-        },400);
+   New mailbox = 5 minutes
 
-      }
+   Click EXTEND =
+   instantly 10 minutes
 
-    },180);
+   Click EXTEND again =
+   instantly 10 minutes again
+*/
 
-    // THEME
-    function applyTheme(theme){
+const INITIAL_TIME =
+    5 * 60 * 1000;
 
-      if(theme === "dark"){
-        document.documentElement.classList.add("dark");
+const EXTENDED_TIME =
+    10 * 60 * 1000;
 
-        document.getElementById("themeBtn")
-          .innerHTML = `
-          <span class="material-symbols-outlined">
-            light_mode
-          </span>`;
-      }
-      else{
 
-        document.documentElement.classList.remove("dark");
+/* =====================================================
+   STATE
+===================================================== */
 
-        document.getElementById("themeBtn")
-          .innerHTML = `
-          <span class="material-symbols-outlined">
-            dark_mode
-          </span>`;
-      }
+let currentEmail = "";
+
+let token = "";
+
+let currentDomain = "";
+
+let messages = [];
+
+let currentMessageId = null;
+
+let pollingTimer = null;
+
+let lifetimeTimer = null;
+
+let busy = false;
+
+
+/* =====================================================
+   DOM
+===================================================== */
+
+const header =
+    document.getElementById(
+        "header"
+    );
+
+const connectionText =
+    document.getElementById(
+        "connectionText"
+    );
+
+const subtitleStatus =
+    document.getElementById(
+        "subtitleStatus"
+    );
+
+const emailText =
+    document.getElementById(
+        "emailText"
+    );
+
+const emailList =
+    document.getElementById(
+        "emailList"
+    );
+
+const emptyState =
+    document.getElementById(
+        "emptyState"
+    );
+
+const emailCount =
+    document.getElementById(
+        "emailCount"
+    );
+
+const timer =
+    document.getElementById(
+        "timer"
+    );
+
+const extendBtn =
+    document.getElementById(
+        "extendBtn"
+    );
+
+
+/* =====================================================
+   CONNECTION UI
+===================================================== */
+
+function setConnection(
+    connected
+){
+
+    if(connected){
+
+        header.classList.remove(
+            "disconnected"
+        );
+
+        header.classList.add(
+            "connected"
+        );
+
+
+        connectionText.textContent =
+            "CONNECTED";
+
+
+        subtitleStatus.textContent =
+            "NETWORK ONLINE";
+
     }
 
-    const savedTheme = localStorage.getItem("theme") || "light";
+    else{
 
-    applyTheme(savedTheme);
+        header.classList.remove(
+            "connected"
+        );
 
-    document.getElementById("themeBtn")
-      .onclick = () => {
+        header.classList.add(
+            "disconnected"
+        );
 
-        const isDark = document.documentElement
-          .classList.contains("dark");
 
-        const next = isDark ? "light" : "dark";
+        connectionText.textContent =
+            "OFFLINE";
 
-        localStorage.setItem("theme", next);
 
-        applyTheme(next);
-      };
+        subtitleStatus.textContent =
+            "NETWORK OFFLINE";
 
-    // TOAST
-    function showToast(message){
-
-      const container = document.getElementById("toastContainer");
-
-      const toast = document.createElement("div");
-
-      toast.className =
-        "toast-in bg-black dark:bg-white dark:text-black text-white px-5 py-3 rounded-2xl shadow-2xl mb-2";
-
-      toast.innerText = message;
-
-      container.appendChild(toast);
-
-      setTimeout(() => {
-
-        toast.classList.remove("toast-in");
-        toast.classList.add("toast-out");
-
-        setTimeout(() => {
-          toast.remove();
-        },400);
-
-      },3000);
     }
 
-    // FORMAT TIME
-    function formatTimer(seconds){
+}
 
-      const mins = Math.floor(seconds / 60)
-        .toString()
-        .padStart(2,"0");
 
-      const secs = (seconds % 60)
-        .toString()
-        .padStart(2,"0");
+/* =====================================================
+   EMAIL FLICKER
+===================================================== */
 
-      return `${mins}:${secs}`;
-    }
+function startEmailFlicker(){
 
-    // TIMER
-    function startTimer(){
+    emailText.classList.remove(
+        "flicker"
+    );
 
-      clearInterval(timerInterval);
+    void emailText.offsetWidth;
 
-      const savedExpiry = localStorage.getItem("tempmail_expiry");
+    emailText.classList.add(
+        "flicker"
+    );
 
-      if(savedExpiry){
-        timerSeconds = Math.max(0, Math.floor((Number(savedExpiry) - Date.now()) / 1000));
-      }else{
-        timerSeconds = 600;
-        localStorage.setItem("tempmail_expiry", Date.now() + (timerSeconds*1000));
-      }
+}
 
-      timer.textContent = formatTimer(timerSeconds);
 
-      timerInterval = setInterval(() => {
+/* =====================================================
+   SPLASH
+===================================================== */
 
-        timerSeconds--;
+let progress = 0;
 
-        timer.textContent = formatTimer(timerSeconds);
+const splashTimer =
+    setInterval(() => {
 
-        if(timerSeconds <= 0){
+        progress += 10;
 
-          clearInterval(timerInterval);
+        document
+            .getElementById(
+                "progressBar"
+            )
+            .style.width =
+            progress + "%";
 
-          showToast("Timer expired!");
+
+        if(progress >= 100){
+
+            clearInterval(
+                splashTimer
+            );
+
+
+            setTimeout(() => {
+
+                document
+                    .getElementById(
+                        "splash"
+                    )
+                    .classList.add(
+                        "hide"
+                    );
+
+            },400);
 
         }
 
-      },1000);
-    }
+    },180);
 
-    document.getElementById("extendBtn")
-      .onclick = () => {
 
-        timerSeconds = 172800;
-        localStorage.setItem("tempmail_expiry", Date.now() + (timerSeconds*1000));
+/* =====================================================
+   TOAST
+===================================================== */
 
-        showToast("Timer Extended");
-      };
+function showToast(message){
 
-    // FETCH
-    async function fetchWithTimeout(url, options = {}, timeout = 10000){
-
-      const controller = new AbortController();
-
-      const id = setTimeout(() => controller.abort(), timeout);
-
-      const response = await fetch(url,{
-        ...options,
-        signal: controller.signal
-      });
-
-      clearTimeout(id);
-
-      return response;
-    }
-
-    // GET NEW EMAIL
-    async function getNewEmail(){
-
-      try{
-
-        showToast("Generating new email...");
-
-        const domainsRes = await fetch(`${API}/domains`);
-
-        const domainsData = await domainsRes.json();
-
-        const domain = domainsData["hydra:member"][0].domain;
-
-        const randomName =
-          "amit" + Math.random().toString(36).substring(2,10);
-
-        currentEmail = `${randomName}@${domain}`;
-
-        currentPassword =
-          Math.random().toString(36).substring(2,12);
-
-        // CREATE ACCOUNT
-        await fetch(`${API}/accounts`,{
-          method:"POST",
-          headers:{
-            "Content-Type":"application/json"
-          },
-          body:JSON.stringify({
-            address: currentEmail,
-            password: currentPassword
-          })
-        });
-
-        // LOGIN
-        const tokenRes = await fetch(`${API}/token`,{
-          method:"POST",
-          headers:{
-            "Content-Type":"application/json"
-          },
-          body:JSON.stringify({
-            address: currentEmail,
-            password: currentPassword
-          })
-        });
-
-        const tokenData = await tokenRes.json();
-
-        token = tokenData.token;
-
-        emailText.textContent = currentEmail;
-
-        localStorage.setItem("tempmail_email", currentEmail);
-        localStorage.setItem("tempmail_password", currentPassword);
-        localStorage.setItem("tempmail_token", token);
-
-        showToast("New email generated!");
-
-        checkInbox();
-
-      }
-      catch(err){
-
-        console.log(err);
-
-        showToast("Failed to generate email");
-
-      }
-    }
-
-    // CHECK INBOX
-    async function checkInbox(){
-
-      try{
-
-        const res = await fetchWithTimeout(
-          `${API}/messages`,
-          {
-            headers:{
-              Authorization:`Bearer ${token}`
-            }
-          }
+    const container =
+        document.getElementById(
+            "toastContainer"
         );
 
-        const data = await res.json();
 
-        messages = data["hydra:member"] || [];
+    const toast =
+        document.createElement(
+            "div"
+        );
 
-        renderEmails();
 
-      }
-      catch(err){
+    toast.className =
+        "toast";
 
-        console.log(err);
-      }
+
+    toast.textContent =
+        message;
+
+
+    container.appendChild(
+        toast
+    );
+
+
+    setTimeout(() => {
+
+        toast.style.opacity =
+            "0";
+
+        toast.style.transform =
+            "translateY(10px)";
+
+
+        setTimeout(() => {
+
+            toast.remove();
+
+        },300);
+
+    },2800);
+
+}
+
+
+/* =====================================================
+   FETCH
+===================================================== */
+
+async function apiFetch(
+    url,
+    options = {},
+    timeout = 15000
+){
+
+    const controller =
+        new AbortController();
+
+
+    const timeoutId =
+        setTimeout(
+            () => controller.abort(),
+            timeout
+        );
+
+
+    try{
+
+        return await fetch(
+            url,
+            {
+                ...options,
+                signal:
+                    controller.signal
+            }
+        );
+
     }
 
-    // RENDER EMAILS
-    function renderEmails(){
+    finally{
 
-      emailList.innerHTML = "";
+        clearTimeout(
+            timeoutId
+        );
 
-      emailCount.innerText =
-        `${messages.length} Emails`;
+    }
 
-      if(messages.length === 0){
+}
 
-        emptyState.style.display = "block";
+
+/* =====================================================
+   JSON
+===================================================== */
+
+async function readJSON(
+    response
+){
+
+    const text =
+        await response.text();
+
+
+    if(!text){
+
+        return {};
+
+    }
+
+
+    try{
+
+        return JSON.parse(
+            text
+        );
+
+    }
+
+    catch{
+
+        return {
+            raw:text
+        };
+
+    }
+
+}
+
+
+/* =====================================================
+   API ERROR
+===================================================== */
+
+function apiError(
+    data,
+    status
+){
+
+    return (
+        data?.error ||
+        data?.message ||
+        `REQUEST FAILED // ${status}`
+    );
+
+}
+
+
+/* =====================================================
+   DOMAINS
+===================================================== */
+
+async function getDomains(){
+
+    const response =
+        await apiFetch(
+            `${API}/api/domains`
+        );
+
+
+    const data =
+        await readJSON(
+            response
+        );
+
+
+    if(!response.ok){
+
+        throw new Error(
+            apiError(
+                data,
+                response.status
+            )
+        );
+
+    }
+
+
+    if(
+        !Array.isArray(data) ||
+        !data.length
+    ){
+
+        throw new Error(
+            "NO MAIL DOMAIN AVAILABLE"
+        );
+
+    }
+
+
+    return data;
+
+}
+
+
+/* =====================================================
+   RANDOM LOGIN
+===================================================== */
+
+function generateLogin(){
+
+    let random = "";
+
+
+    if(
+        window.crypto &&
+        crypto.randomUUID
+    ){
+
+        random =
+            crypto
+                .randomUUID()
+                .replaceAll(
+                    "-",
+                    ""
+                )
+                .substring(
+                    0,
+                    9
+                );
+
+    }
+
+    else{
+
+        random =
+            Math.random()
+                .toString(36)
+                .substring(
+                    2,
+                    11
+                );
+
+    }
+
+
+    return "amit" + random;
+
+}
+
+
+/* =====================================================
+   CREATE MAILBOX
+===================================================== */
+
+async function createInbox(){
+
+    if(busy){
 
         return;
-      }
-
-      emptyState.style.display = "none";
-
-      messages.forEach(mail => {
-
-        const div = document.createElement("div");
-
-        div.className =
-          "email-card glass rounded-3xl p-4 border border-white/10 transition-all duration-300 cursor-pointer";
-
-        div.innerHTML = `
-          <div class="flex items-start justify-between gap-3">
-
-            <div class="flex gap-3 flex-1">
-
-              <div class="w-12 h-12 rounded-full bg-black dark:bg-white text-white dark:text-black flex items-center justify-center font-bold">
-                ${mail.from?.name?.charAt(0)?.toUpperCase() || "?"}
-              </div>
-
-              <div class="flex-1 overflow-hidden">
-
-                <h3 class="font-bold truncate">
-                  ${escapeHTML(mail.subject || "No Subject")}
-                </h3>
-
-                <p class="text-sm opacity-70 truncate">
-                  ${escapeHTML(mail.from?.address || "")}
-                </p>
-
-                <p class="text-sm opacity-60 truncate mt-1">
-                  ${escapeHTML(mail.intro || "")}
-                </p>
-
-              </div>
-            </div>
-
-          </div>
-        `;
-
-        div.onclick = () => openEmail(mail.id);
-
-        emailList.appendChild(div);
-
-      });
 
     }
 
-    // OPEN EMAIL
-    async function openEmail(id){
 
-      try{
+    busy = true;
 
-        const res = await fetch(
-          `${API}/messages/${id}`,
-          {
-            headers:{
-              Authorization:`Bearer ${token}`
-            }
-          }
+
+    const button =
+        document.getElementById(
+            "newMailBtn"
         );
 
-        const data = await res.json();
 
-        document.getElementById("emailView")
-          .classList.remove("hidden");
+    button.disabled =
+        true;
 
-        document.getElementById("detailSender")
-          .innerText = data.from.address;
 
-        document.getElementById("detailSubject")
-          .innerText = data.subject || "No Subject";
+    button.style.opacity =
+        ".5";
 
-        document.getElementById("detailTime")
-          .innerText = new Date(data.createdAt)
-          .toLocaleString();
 
-        document.getElementById("avatar")
-          .innerText =
-          data.from.address.charAt(0).toUpperCase();
+    emailText.classList.remove(
+        "flicker"
+    );
 
-        document.getElementById("detailBody")
-          .innerHTML =
-          data.html?.[0] ||
-          `<pre>${escapeHTML(data.text || "")}</pre>`;
 
-      }
-      catch(err){
+    emailText.textContent =
+        "GENERATING...";
 
-        console.log(err);
 
-        showToast("Failed to open email");
+    setConnection(
+        false
+    );
 
-      }
+
+    try{
+
+        const domains =
+            await getDomains();
+
+
+        currentDomain =
+            domains[0];
+
+
+        const login =
+            generateLogin();
+
+
+        const response =
+            await apiFetch(
+                `${API}/api/inbox`,
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        login:
+                            login,
+
+                        domain:
+                            currentDomain
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await readJSON(
+                response
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                apiError(
+                    data,
+                    response.status
+                )
+            );
+
+        }
+
+
+        if(
+            !data.address ||
+            !data.token
+        ){
+
+            throw new Error(
+                "INVALID MAILBOX RESPONSE"
+            );
+
+        }
+
+
+        currentEmail =
+            data.address;
+
+
+        token =
+            data.token;
+
+
+        localStorage.setItem(
+            "tempmail_address",
+            currentEmail
+        );
+
+
+        localStorage.setItem(
+            "tempmail_token",
+            token
+        );
+
+
+        localStorage.setItem(
+            "tempmail_domain",
+            currentDomain
+        );
+
+
+        /*
+         * New mailbox:
+         * EXACTLY 5 MINUTES
+         */
+
+        localStorage.setItem(
+            "tempmail_expiry",
+            String(
+                Date.now() +
+                INITIAL_TIME
+            )
+        );
+
+
+        messages = [];
+
+        currentMessageId =
+            null;
+
+
+        resetOTP();
+
+
+        renderMessages();
+
+
+        emailText.textContent =
+            currentEmail;
+
+
+        startEmailFlicker();
+
+
+        startLifetime();
+
+
+        /*
+         * Successfully created
+         * mailbox = connected
+         */
+
+        setConnection(
+            true
+        );
+
+
+        showToast(
+            "MAILBOX CONNECTED"
+        );
+
+
+        setTimeout(
+            () => {
+
+                refreshInbox(
+                    false
+                );
+
+            },
+            700
+        );
 
     }
 
-    // ESCAPE
-    function escapeHTML(str){
 
-      const div = document.createElement("div");
+    catch(error){
 
-      div.innerText = str;
+        console.error(
+            error
+        );
 
-      return div.innerHTML;
+
+        setConnection(
+            false
+        );
+
+
+        emailText.classList.remove(
+            "flicker"
+        );
+
+
+        emailText.textContent =
+            "GENERATION FAILED";
+
+
+        showToast(
+            error.message ||
+            "MAILBOX CREATION FAILED"
+        );
+
     }
 
-    // COPY
-    document.getElementById("copyBtn")
-      .onclick = async () => {
 
-        await navigator.clipboard.writeText(currentEmail);
+    finally{
 
-        showToast("Copied!");
-      };
+        busy = false;
 
-    // REFRESH
-    document.getElementById("refreshBtn")
-      .onclick = () => {
+        button.disabled =
+            false;
 
-        checkInbox();
+        button.style.opacity =
+            "1";
 
-        showToast("Inbox refreshed");
-      };
-
-    // DELETE MAIL
-    document.getElementById("deleteBtn")
-      .onclick = async () => {
-
-        await getNewEmail();
-
-        showToast("Mailbox deleted");
-      };
-
-    // NEW MAIL
-    document.getElementById("newMailBtn")
-      .onclick = async () => {
-
-        await getNewEmail();
-      };
-
-    // BACK
-    document.getElementById("backBtn")
-      .onclick = () => {
-
-        document.getElementById("emailView")
-          .classList.add("hidden");
-      };
-
-    // DELETE MESSAGE
-    document.getElementById("deleteMessageBtn")
-      .onclick = () => {
-
-        document.getElementById("emailView")
-          .classList.add("hidden");
-
-        showToast("Message removed locally");
-      };
-
-    // INIT
-    async function initApp(){
-
-      const savedEmail = localStorage.getItem("tempmail_email");
-      const savedPassword = localStorage.getItem("tempmail_password");
-      const savedToken = localStorage.getItem("tempmail_token");
-
-      if(savedEmail && savedPassword && savedToken){
-
-        currentEmail = savedEmail;
-        currentPassword = savedPassword;
-        token = savedToken;
-
-        emailText.textContent = currentEmail;
-
-        checkInbox();
-
-      }else{
-
-        await getNewEmail();
-
-      }
-
-      startTimer();
-
-      inboxInterval = setInterval(() => {
-        checkInbox();
-      },10000);
     }
 
-    initApp();
+}
 
-  </script>
+
+/* =====================================================
+   RESTORE SESSION
+===================================================== */
+
+function restoreSession(){
+
+    const savedEmail =
+        localStorage.getItem(
+            "tempmail_address"
+        );
+
+
+    const savedToken =
+        localStorage.getItem(
+            "tempmail_token"
+        );
+
+
+    const savedDomain =
+        localStorage.getItem(
+            "tempmail_domain"
+        );
+
+
+    if(
+        !savedEmail ||
+        !savedToken
+    ){
+
+        return false;
+
+    }
+
+
+    currentEmail =
+        savedEmail;
+
+
+    token =
+        savedToken;
+
+
+    currentDomain =
+        savedDomain || "";
+
+
+    emailText.textContent =
+        currentEmail;
+
+
+    startEmailFlicker();
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   TIMER FORMAT
+===================================================== */
+
+function formatTimer(
+    milliseconds
+){
+
+    const total =
+        Math.max(
+            0,
+            Math.floor(
+                milliseconds / 1000
+            )
+        );
+
+
+    const minutes =
+        Math.floor(
+            total / 60
+        );
+
+
+    const seconds =
+        total % 60;
+
+
+    return (
+
+        String(minutes)
+            .padStart(2,"0")
+
+        +
+
+        ":"
+
+        +
+
+        String(seconds)
+            .padStart(2,"0")
+
+    );
+
+}
+
+
+/* =====================================================
+   TIMER
+===================================================== */
+
+function startLifetime(){
+
+    clearInterval(
+        lifetimeTimer
+    );
+
+
+    let expiry =
+        Number(
+            localStorage.getItem(
+                "tempmail_expiry"
+            )
+        );
+
+
+    if(
+        !expiry ||
+        expiry <= Date.now()
+    ){
+
+        expiry =
+            Date.now() +
+            INITIAL_TIME;
+
+
+        localStorage.setItem(
+            "tempmail_expiry",
+            String(expiry)
+        );
+
+    }
+
+
+    function updateTimer(){
+
+        const remaining =
+            Math.max(
+                0,
+                expiry -
+                Date.now()
+            );
+
+
+        timer.textContent =
+            formatTimer(
+                remaining
+            );
+
+
+        extendBtn.disabled =
+            remaining <= 0;
+
+
+        if(
+            remaining <= 0
+        ){
+
+            clearInterval(
+                lifetimeTimer
+            );
+
+
+            timer.textContent =
+                "00:00";
+
+
+            extendBtn.disabled =
+                false;
+
+
+            setConnection(
+                false
+            );
+
+
+            showToast(
+                "MAILBOX TIMER EXPIRED"
+            );
+
+        }
+
+    }
+
+
+    updateTimer();
+
+
+    lifetimeTimer =
+        setInterval(
+            updateTimer,
+            1000
+        );
+
+}
+
+
+/* =====================================================
+   EXTEND
+===================================================== */
+
+extendBtn.onclick =
+    () => {
+
+        /*
+         * CLICK AT ANY TIME
+         *
+         * 05:00 -> 10:00
+         * 04:30 -> 10:00
+         * 01:20 -> 10:00
+         * 00:05 -> 10:00
+         *
+         * Always exactly 10 minutes.
+         */
+
+
+        const newExpiry =
+            Date.now() +
+            EXTENDED_TIME;
+
+
+        localStorage.setItem(
+            "tempmail_expiry",
+            String(newExpiry)
+        );
+
+
+        startLifetime();
+
+
+        setConnection(
+            true
+        );
+
+
+        showToast(
+            "TIMER EXTENDED // 10:00"
+        );
+
+    };
+
+
+/* =====================================================
+   REFRESH INBOX
+===================================================== */
+
+async function refreshInbox(
+    manual = false
+){
+
+    if(
+        !token ||
+        busy
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await apiFetch(
+                `${API}/api/messages`,
+                {
+
+                    headers:{
+                        Authorization:
+                            `Bearer ${token}`
+                    }
+
+                }
+            );
+
+
+        const data =
+            await readJSON(
+                response
+            );
+
+
+        if(
+            response.status ===
+            401
+        ){
+
+            setConnection(
+                false
+            );
+
+
+            localStorage.removeItem(
+                "tempmail_address"
+            );
+
+            localStorage.removeItem(
+                "tempmail_token"
+            );
+
+
+            token = "";
+
+            currentEmail = "";
+
+
+            await createInbox();
+
+            return;
+
+        }
+
+
+        if(!response.ok){
+
+            setConnection(
+                false
+            );
+
+
+            throw new Error(
+                apiError(
+                    data,
+                    response.status
+                )
+            );
+
+        }
+
+
+        /*
+         * Successful API response
+         * = connected
+         */
+
+        setConnection(
+            true
+        );
+
+
+        messages =
+            Array.isArray(data)
+                ? data
+                : [];
+
+
+        renderMessages();
+
+
+        if(messages.length){
+
+            detectOTP(
+                messages[0]
+            );
+
+        }
+
+
+        if(manual){
+
+            showToast(
+                "INBOX SYNCHRONIZED"
+            );
+
+        }
+
+    }
+
+
+    catch(error){
+
+        console.warn(
+            error
+        );
+
+
+        setConnection(
+            false
+        );
+
+
+        if(manual){
+
+            showToast(
+                error.message ||
+                "NETWORK ERROR"
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   RENDER MESSAGES
+===================================================== */
+
+function renderMessages(){
+
+    emailList.innerHTML =
+        "";
+
+
+    const count =
+        messages.length;
+
+
+    emailCount.textContent =
+        `${count} ${
+            count === 1
+                ? "EMAIL"
+                : "EMAILS"
+        }`;
+
+
+    if(!count){
+
+        emptyState.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    emptyState.style.display =
+        "none";
+
+
+    messages.forEach(
+        mail => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "mail-card";
+
+
+            const sender =
+                mail.from ||
+                "UNKNOWN";
+
+
+            const senderName =
+                mail.fromName ||
+                sender;
+
+
+            card.innerHTML = `
+
+                <div class="mail-top">
+
+                    <div class="avatar">
+
+                        ${escapeHTML(
+                            getInitial(
+                                senderName
+                            )
+                        )}
+
+                    </div>
+
+
+                    <div class="mail-info">
+
+                        <div class="mail-subject">
+
+                            ${escapeHTML(
+                                mail.subject ||
+                                "NO SUBJECT"
+                            )}
+
+                        </div>
+
+
+                        <div class="mail-from">
+
+                            ${escapeHTML(
+                                senderName
+                            )}
+
+                        </div>
+
+
+                        <div class="mail-intro">
+
+                            ${escapeHTML(
+                                mail.intro ||
+                                "NO PREVIEW"
+                            )}
+
+                        </div>
+
+
+                        <div class="mail-date">
+
+                            ${escapeHTML(
+                                formatDate(
+                                    mail.date
+                                )
+                            )}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            card.onclick =
+                () => {
+
+                    openMessage(
+                        mail.id
+                    );
+
+                };
+
+
+            emailList.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   OPEN MESSAGE
+===================================================== */
+
+async function openMessage(
+    id
+){
+
+    if(
+        !id ||
+        !token
+    ){
+
+        return;
+
+    }
+
+
+    try{
+
+        showToast(
+            "OPENING TRANSMISSION..."
+        );
+
+
+        const response =
+            await apiFetch(
+                `${API}/api/messages/${encodeURIComponent(id)}`,
+                {
+
+                    headers:{
+                        Authorization:
+                            `Bearer ${token}`
+                    }
+
+                }
+            );
+
+
+        const data =
+            await readJSON(
+                response
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                apiError(
+                    data,
+                    response.status
+                )
+            );
+
+        }
+
+
+        currentMessageId =
+            id;
+
+
+        document
+            .getElementById(
+                "emailView"
+            )
+            .classList.add(
+                "active"
+            );
+
+
+        const sender =
+            data.from ||
+            "UNKNOWN";
+
+
+        document
+            .getElementById(
+                "detailSender"
+            )
+            .textContent =
+            data.fromName
+                ? `${data.fromName} <${sender}>`
+                : sender;
+
+
+        document
+            .getElementById(
+                "detailSubject"
+            )
+            .textContent =
+            data.subject ||
+            "NO SUBJECT";
+
+
+        document
+            .getElementById(
+                "detailTime"
+            )
+            .textContent =
+            formatDate(
+                data.date
+            );
+
+
+        document
+            .getElementById(
+                "avatar"
+            )
+            .textContent =
+            getInitial(
+                data.fromName ||
+                sender
+            );
+
+
+        renderBody(
+            data
+        );
+
+
+        detectOTPInText(
+            [
+                data.subject || "",
+                data.text || "",
+                data.html || ""
+            ].join(" "),
+            sender
+        );
+
+    }
+
+
+    catch(error){
+
+        console.error(
+            error
+        );
+
+
+        showToast(
+            error.message ||
+            "MESSAGE OPEN FAILED"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   EMAIL BODY
+===================================================== */
+
+function renderBody(
+    data
+){
+
+    const target =
+        document.getElementById(
+            "detailBody"
+        );
+
+
+    target.innerHTML =
+        "";
+
+
+    if(data.html){
+
+        const iframe =
+            document.createElement(
+                "iframe"
+            );
+
+
+        iframe.className =
+            "email-frame";
+
+
+        iframe.setAttribute(
+            "sandbox",
+            ""
+        );
+
+
+        iframe.srcdoc =
+            String(
+                data.html
+            );
+
+
+        target.appendChild(
+            iframe
+        );
+
+    }
+
+    else{
+
+        const pre =
+            document.createElement(
+                "pre"
+            );
+
+
+        pre.className =
+            "text-body";
+
+
+        pre.textContent =
+            data.text ||
+            "NO MESSAGE BODY";
+
+
+        target.appendChild(
+            pre
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CLEAR INBOX
+===================================================== */
+
+async function clearInbox(){
+
+    if(!token){
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await apiFetch(
+                `${API}/api/inbox`,
+                {
+
+                    method:"DELETE",
+
+                    headers:{
+                        Authorization:
+                            `Bearer ${token}`
+                    }
+
+                }
+            );
+
+
+        const data =
+            await readJSON(
+                response
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                apiError(
+                    data,
+                    response.status
+                )
+            );
+
+        }
+
+
+        messages = [];
+
+
+        resetOTP();
+
+
+        renderMessages();
+
+
+        showToast(
+            "INBOX PURGED"
+        );
+
+    }
+
+
+    catch(error){
+
+        setConnection(
+            false
+        );
+
+
+        showToast(
+            error.message ||
+            "PURGE FAILED"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   OTP
+===================================================== */
+
+function detectOTP(
+    envelope
+){
+
+    if(!envelope){
+
+        return;
+
+    }
+
+
+    const text =
+        [
+            envelope.subject || "",
+            envelope.intro || ""
+        ].join(" ");
+
+
+    const code =
+        extractOTP(
+            text
+        );
+
+
+    if(code){
+
+        showOTP(
+            code,
+            envelope.from ||
+            "INCOMING"
+        );
+
+    }
+
+}
+
+
+function detectOTPInText(
+    text,
+    source
+){
+
+    const code =
+        extractOTP(
+            text
+        );
+
+
+    if(code){
+
+        showOTP(
+            code,
+            source
+        );
+
+    }
+
+}
+
+
+function extractOTP(
+    text
+){
+
+    if(!text){
+
+        return null;
+
+    }
+
+
+    let match =
+        String(text).match(
+            /(?:otp|one[-\s]?time|verification|verify|code|passcode|pin)[^0-9]{0,80}(\d{4,8})/i
+        );
+
+
+    if(match){
+
+        return match[1];
+
+    }
+
+
+    match =
+        String(text).match(
+            /\b(\d{6})\b/
+        );
+
+
+    if(match){
+
+        return match[1];
+
+    }
+
+
+    match =
+        String(text).match(
+            /\b(\d{4,5})\b/
+        );
+
+
+    if(match){
+
+        return match[1];
+
+    }
+
+
+    return null;
+
+}
+
+
+function showOTP(
+    code,
+    source
+){
+
+    document
+        .getElementById(
+            "otpCode"
+        )
+        .textContent =
+        code;
+
+
+    document
+        .getElementById(
+            "otpSource"
+        )
+        .textContent =
+        "SOURCE // " +
+        source;
+
+
+    document
+        .getElementById(
+            "otpPanel"
+        )
+        .style.display =
+        "block";
+
+}
+
+
+function resetOTP(){
+
+    document
+        .getElementById(
+            "otpPanel"
+        )
+        .style.display =
+        "none";
+
+
+    document
+        .getElementById(
+            "otpCode"
+        )
+        .textContent =
+        "";
+
+
+    document
+        .getElementById(
+            "otpSource"
+        )
+        .textContent =
+        "";
+
+}
+
+
+/* =====================================================
+   COPY EMAIL
+===================================================== */
+
+document
+    .getElementById(
+        "copyBtn"
+    )
+    .onclick =
+    async () => {
+
+        if(!currentEmail){
+
+            return;
+
+        }
+
+
+        try{
+
+            await navigator
+                .clipboard
+                .writeText(
+                    currentEmail
+                );
+
+
+            showToast(
+                "ADDRESS COPIED"
+            );
+
+        }
+
+        catch{
+
+            showToast(
+                "COPY FAILED"
+            );
+
+        }
+
+    };
+
+
+/* =====================================================
+   COPY OTP
+===================================================== */
+
+document
+    .getElementById(
+        "copyOtpBtn"
+    )
+    .onclick =
+    async () => {
+
+        const code =
+            document
+                .getElementById(
+                    "otpCode"
+                )
+                .textContent;
+
+
+        if(!code){
+
+            return;
+
+        }
+
+
+        try{
+
+            await navigator
+                .clipboard
+                .writeText(
+                    code
+                );
+
+
+            showToast(
+                "CODE COPIED"
+            );
+
+        }
+
+        catch{
+
+            showToast(
+                "COPY FAILED"
+            );
+
+        }
+
+    };
+
+
+/* =====================================================
+   CHANGE MAIL
+===================================================== */
+
+document
+    .getElementById(
+        "newMailBtn"
+    )
+    .onclick =
+    async () => {
+
+        localStorage.removeItem(
+            "tempmail_address"
+        );
+
+        localStorage.removeItem(
+            "tempmail_token"
+        );
+
+        localStorage.removeItem(
+            "tempmail_domain"
+        );
+
+        localStorage.removeItem(
+            "tempmail_expiry"
+        );
+
+
+        currentEmail = "";
+
+        token = "";
+
+        messages = [];
+
+
+        await createInbox();
+
+    };
+
+
+/* =====================================================
+   CLEAR
+===================================================== */
+
+document
+    .getElementById(
+        "clearBtn"
+    )
+    .onclick =
+    async () => {
+
+        await clearInbox();
+
+    };
+
+
+/* =====================================================
+   REFRESH
+===================================================== */
+
+document
+    .getElementById(
+        "refreshBtn"
+    )
+    .onclick =
+    async () => {
+
+        await refreshInbox(
+            true
+        );
+
+    };
+
+
+/* =====================================================
+   BACK
+===================================================== */
+
+document
+    .getElementById(
+        "backBtn"
+    )
+    .onclick =
+    () => {
+
+        document
+            .getElementById(
+                "emailView"
+            )
+            .classList.remove(
+                "active"
+            );
+
+    };
+
+
+/* =====================================================
+   REMOVE MESSAGE
+===================================================== */
+
+document
+    .getElementById(
+        "deleteMessageBtn"
+    )
+    .onclick =
+    () => {
+
+        if(!currentMessageId){
+
+            return;
+
+        }
+
+
+        messages =
+            messages.filter(
+                message =>
+                    message.id !==
+                    currentMessageId
+            );
+
+
+        renderMessages();
+
+
+        currentMessageId =
+            null;
+
+
+        document
+            .getElementById(
+                "emailView"
+            )
+            .classList.remove(
+                "active"
+            );
+
+
+        showToast(
+            "REMOVED FROM VIEW"
+        );
+
+    };
+
+
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function getInitial(
+    value
+){
+
+    return String(
+        value || "?"
+    )
+    .trim()
+    .charAt(0)
+    .toUpperCase();
+
+}
+
+
+function formatDate(
+    value
+){
+
+    if(!value){
+
+        return "";
+
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+
+        return "";
+
+    }
+
+
+    return date.toLocaleString();
+
+}
+
+
+function escapeHTML(
+    value
+){
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.textContent =
+        String(
+            value ?? ""
+        );
+
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   POLLING
+===================================================== */
+
+function startPolling(){
+
+    clearInterval(
+        pollingTimer
+    );
+
+
+    pollingTimer =
+        setInterval(
+            () => {
+
+                refreshInbox(
+                    false
+                );
+
+            },
+            POLL_INTERVAL
+        );
+
+}
+
+
+/* =====================================================
+   INIT
+===================================================== */
+
+async function init(){
+
+    const restored =
+        restoreSession();
+
+
+    if(restored){
+
+        startLifetime();
+
+
+        /*
+         * Verify connection
+         * against API.
+         */
+
+        await refreshInbox(
+            false
+        );
+
+    }
+
+    else{
+
+        await createInbox();
+
+    }
+
+
+    startPolling();
+
+}
+
+
+/* =====================================================
+   START
+===================================================== */
+
+init();
+
+
+/* =====================================================
+   CLEANUP
+===================================================== */
+
+window.addEventListener(
+    "beforeunload",
+    () => {
+
+        clearInterval(
+            pollingTimer
+        );
+
+        clearInterval(
+            lifetimeTimer
+        );
+
+    }
+);
+
+</script>
 
 </body>
 </html>
